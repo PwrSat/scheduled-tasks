@@ -1,7 +1,7 @@
 name: Test Setup
 
 on:
-  workflow_dispatch:  # Manual trigger only
+  workflow_dispatch:
 
 jobs:
   test:
@@ -23,23 +23,32 @@ jobs:
 
       - name: Check secrets are configured
         env:
-          MY_EMAIL: ${{ secrets.MY_EMAIL }}
-          MY_PASSWORD: ${{ secrets.MY_PASSWORD }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          WEATHER_APP_ID: ${{ secrets.WEATHER_APP_ID }}
         run: |
-          if [ -z "$MY_EMAIL" ]; then
-            echo "MY_EMAIL secret is not set!"
+          if [ -z "$TELEGRAM_BOT_TOKEN" ]; then
+            echo "TELEGRAM_BOT_TOKEN secret is not set!"
             echo "Go to Settings > Secrets > Actions and add it."
             exit 1
           else
-            echo "MY_EMAIL is configured"
+            echo "TELEGRAM_BOT_TOKEN is configured"
           fi
 
-          if [ -z "$MY_PASSWORD" ]; then
-            echo "MY_PASSWORD secret is not set!"
+          if [ -z "$TELEGRAM_CHAT_ID" ]; then
+            echo "TELEGRAM_CHAT_ID secret is not set!"
             echo "Go to Settings > Secrets > Actions and add it."
             exit 1
           else
-            echo "MY_PASSWORD is configured"
+            echo "TELEGRAM_CHAT_ID is configured"
+          fi
+
+          if [ -z "$WEATHER_APP_ID" ]; then
+            echo "WEATHER_APP_ID secret is not set!"
+            echo "Go to Settings > Secrets > Actions and add it."
+            exit 1
+          else
+            echo "WEATHER_APP_ID is configured"
           fi
 
           echo ""
@@ -60,13 +69,6 @@ jobs:
             echo "requirements.txt found"
           else
             echo "requirements.txt not found!"
-            exit 1
-          fi
-
-          if [ -f "birthdays.csv" ]; then
-            echo "birthdays.csv found"
-          else
-            echo "birthdays.csv not found!"
             exit 1
           fi
 
